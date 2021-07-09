@@ -1,5 +1,6 @@
 import React from 'react';
-import Box from './components/Box';
+import Box, { SpacedBox } from './components/Box';
+import Input from './components/Input';
 
 const sendMessage = message => {
   fetch('/message', {
@@ -19,12 +20,16 @@ const App = () => {
   const [text, setText] = React.useState('');
   const [messages, setMessages] = React.useState([]);
 
-  // disconnect
+  // TODO: disconnect
 
   const source = React.useRef();
 
   React.useEffect(() => {
     source.current = new EventSource('/subscribe');
+
+    source.current.addEventListener('error', err => {
+      console.error('EventSource error:', err);
+    });
 
     source.current.addEventListener('message', e => {
       try {
@@ -41,28 +46,37 @@ const App = () => {
   }, []);
 
   return (
-    <Box maxWidth="500px" textAlign="center" m="2em auto">
+    <Box maxWidth="700px" textAlign="center" m="2em auto">
       <h1>You&apos;re doing great.</h1>
-      <Box
+      <SpacedBox
         as="form"
-        m="auto"
+        m="1em auto"
         display="flex"
         flexDirection="column"
+        maxWidth="200px"
         onSubmit={e => e.preventDefault() || sendMessage({ name, text })}
       >
-        <label>
-          Name
-          <input onChange={e => setName(e.target.value)} value={name} />
-        </label>
-        <label>
-          Message
-          <input onChange={e => setText(e.target.value)} value={text} />
-        </label>
-        <button type="submit">Send message to group</button>
-        <button type="button" onClick={source.current?.close || (() => {})}>
+        <Input
+          id="name"
+          label="Name"
+          value={name}
+          hiddenLabel
+          placeholder="Name"
+          onChange={e => setName(e.target.value)}
+        />
+        <Input
+          id="message"
+          label="Message"
+          value={text}
+          hiddenLabel
+          placeholder="Message"
+          onChange={e => setText(e.target.value)}
+        />
+        <button type="submit">Send message</button>
+        {/* <button type="button" onClick={source.current?.close || (() => {})}>
           Disconnect
-        </button>
-      </Box>
+        </button> */}
+      </SpacedBox>
       <Box as="ul">
         {messages.map(m => (
           <li key={m}>

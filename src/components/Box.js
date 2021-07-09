@@ -19,4 +19,10 @@ const Box = styled.div`
   ${position}
 `;
 
+export const SpacedBox = styled(Box)`
+  & > * {
+    margin-bottom: 1em;
+  }
+`;
+
 export default Box;
