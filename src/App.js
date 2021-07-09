@@ -15,7 +15,6 @@ const sendMessage = message => {
 };
 
 const App = () => {
-  // const [count, setCount] = React.useState(0);
   const [name, setName] = React.useState('');
   const [text, setText] = React.useState('');
   const [messages, setMessages] = React.useState([]);
@@ -32,7 +31,11 @@ const App = () => {
         const { messages: incomingMessages } = JSON.parse(e.data);
         setMessages(prev => [...prev, ...incomingMessages].filter(Boolean));
       } catch (err) {
-        console.log('Connected...');
+        if (e.data.match(/connected/i)) {
+          console.log('Connected...');
+        } else {
+          console.error(err);
+        }
       }
     });
   }, []);
@@ -40,7 +43,6 @@ const App = () => {
   return (
     <Box maxWidth="500px" textAlign="center" m="2em auto">
       <h1>You&apos;re doing great.</h1>
-      {/* <h2>Count is {count}</h2> */}
       <Box
         as="form"
         m="auto"
