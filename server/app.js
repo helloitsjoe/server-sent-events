@@ -13,6 +13,7 @@ const createApp = (port = 3000, broadcast = new EventEmitter()) => {
 
     app.post('/message', (req, res) => {
       console.log(req.body);
+      // TODO: Validation
       res.status(200).send({});
       console.log('Broadcasting', req.body.message);
       broadcast.emit('message', req.body.message);

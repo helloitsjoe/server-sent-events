@@ -37,4 +37,16 @@ describe('app', () => {
       expect(emitter.emit).toBeCalledWith('message', message);
     });
   });
+
+  describe('/subscribe', () => {
+    // TODO: How to test this?
+    it('broadcasts messages to everyone', async () => {
+      // const res = await axios.get(`${host}/subscribe`);
+      // console.log(`res:`, res);
+      // expect(res.status).toBe(200);
+      // expect(res.headers['Content-Type']).toBe('text/event-stream');
+      // await axios.post(`${host}/message`, { message: 'Hello' });
+      // expect(res.data).toBe('foo');
+    });
+  });
 });
